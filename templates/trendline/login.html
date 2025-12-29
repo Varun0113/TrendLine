@@ -1,0 +1,119 @@
+{% extends 'trendline/base.html' %}
+
+{% block title %}TrendLine - Login{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="side-message left show">
+        <h2>Welcome Back!</h2>
+        <p>Sign in to continue with TrendLine and stay informed.</p>
+    </div>
+    
+    <div class="glass-container move-right" id="loginContainer">
+        <h2 class="form-title">Welcome Back</h2>
+        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <form method="post" style="width: 100%;">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="alert alert-error">{{ form.username.errors.0 }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="alert alert-error">{{ form.password.errors.0 }}</div>
+                {% endif %}
+            </div>
+            
+            {% if form.non_field_errors %}
+            <div class="form-group">
+                <div class="alert alert-error">{{ form.non_field_errors.0 }}</div>
+            </div>
+            {% endif %}
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <label style="display: flex; align-items: center; font-size: 0.9rem;">
+                    <input type="checkbox" name="remember_me" style="margin-right: 8px;">
+                    Remember me
+                </label>
+                <a href="#" style="color: #ffd700; text-decoration: none; font-size: 0.9rem;">
+                    Forgot Password?
+                </a>
+            </div>
+            
+            <button type="submit" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">
+                Sign In
+            </button>
+        </form>
+        
+        <p style="margin-top: 20px; text-align: center; opacity: 0.8;">
+            Don't have an account?
+            <a href="/register/" style="color: #ffd700; text-decoration: none;">Register here</a>
+        </p>
+    </div>
+</div>
+
+<style>
+.side-message.left {
+    position: absolute;
+    left: 20px;   /* move closer to left edge */
+    top: 50%;     /* adjust vertically if needed */
+    transform: translateY(-50%);
+}
+
+.back-btn {
+    position: absolute;
+    top: -20px;    /* move upward (smaller value = closer to very top) */
+    left: -250px;   /* move more left (smaller value = closer to very left edge) */
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    color: #fff;  /* adjust color */
+    cursor: pointer;
+}
+
+#loginContainer {
+  margin-left: -200px; /* adjust value as needed */
+}
+</style>
+
+<script>
+
+// Entrance animation
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('loginContainer');
+    const sideMessage = document.querySelector('.side-message');
+    
+    // Start from center and move to right
+    container.classList.add('center');
+    container.style.opacity = '0';
+    
+    setTimeout(() => {
+        container.style.opacity = '1';
+        container.classList.remove('center');
+        container.classList.add('move-right');
+    }, 200);
+    
+    // Show side message after container animation
+    setTimeout(() => {
+        if (sideMessage) {
+            sideMessage.style.opacity = '1';
+        }
+    }, 800);
+});
+</script>
+{% endblock %}

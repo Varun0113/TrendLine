@@ -1,0 +1,107 @@
+{% extends 'trendline/base.html' %}
+
+{% block title %}TrendLine - Register{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    
+    <div class="glass-container move-left" id="registerContainer">
+        <h2 class="form-title">Create Account</h2>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" style="width: 100%;">
+            {% csrf_token %}
+
+            <div class="form-group">
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="alert alert-error">{{ form.username.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="alert alert-error">{{ form.email.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <div class="alert alert-error">{{ form.password1.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <div class="alert alert-error">{{ form.password2.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                Create Account
+            </button>
+        </form>
+
+        <p style="margin-top: 20px; text-align: center; opacity: 0.8;">
+            Already have an account? 
+            <a href="{% url 'login' %}" style="color: #ffd700; text-decoration: none;">Login here</a>
+        </p>
+    </div>
+
+    <div class="side-message right show">
+        <h2>Join TrendLine Today!</h2>
+        <p>Sign up to access reliable reporting.</p>
+    </div>
+</div>
+<style>
+.move-left {
+    margin-left: -200px;
+}
+
+.back-btn {
+    position: absolute;
+    top: -20px;    /* move upward (smaller value = closer to very top) */
+    left: -250px;   /* move more left (smaller value = closer to very left edge) */
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    color: #fff;  /* adjust color */
+    cursor: pointer;
+}
+
+</style>
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('registerContainer');
+    const sideMessage = document.querySelector('.side-message');
+    
+    container.classList.add('center');
+    container.style.opacity = '0';
+    
+    setTimeout(() => {
+        container.style.opacity = '1';
+        container.classList.remove('center');
+        container.classList.add('move-left');
+    }, 200);
+    
+    setTimeout(() => {
+        if (sideMessage) {
+            sideMessage.style.opacity = '1';
+        }
+    }, 800);
+});
+</script>
+{% endblock %}
